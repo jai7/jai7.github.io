@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+const items = await getCollection('questions');
+
+const byCategory = items.reduce<Record<string, typeof items>>((acc, item) => {
+  const cat = item.data.category ?? 'General';
+  if (!acc[cat]) acc[cat] = [];
+  acc[cat].push(item);
+  return acc;
+}, {});
+
+const categories = Object.keys(byCategory);
+---
+
+<Base title="Questions">
+  <div class="subpage">
+    <div class="subpage-header">
+      <div class="subpage-title">Questions</div>
+      <div class="subpage-desc">Things I think about and don't have satisfying answers to.</div>
+    </div>
+
+    <ul class="ts-list">
+      {categories.map(cat => (
+        <>
+          <li class="ts-year-divider">{cat}</li>
+          {byCategory[cat].map(item => (
+            <li class="ts-item">
+              <div class="ts-date">—</div>
+              <div class="ts-body">
+                <span class="ts-plain">{item.data.question}</span>
+              </div>
+            </li>
+          ))}
+        </>
+      ))}
+    </ul>
+  </div>
+</Base>

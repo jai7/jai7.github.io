@@ -1,0 +1,156 @@
+---
+import Base from '../layouts/Base.astro';
+
+const sections = [
+  { slug: 'thoughts',    title: 'Thoughts',    desc: 'Writing on systems, infra and engineering' },
+  { slug: 'experiments', title: 'Experiments',  desc: 'Side projects and tinkering' },
+  { slug: 'projects',    title: 'Projects',     desc: 'Open source and production work' },
+  { slug: 'gallery',     title: 'Gallery',      desc: 'Photos and visual moments' },
+  { slug: 'questions',   title: 'Questions',    desc: "Things I don't have good answers to" },
+  { slug: 'contact',     title: 'Contact',      desc: 'Get in touch' },
+];
+---
+
+<Base title="Home" isHome={true}>
+  <div class="home-bio">
+    <h1>Jayakrishna P<br /><em>backend / full-stack engineer.</em></h1>
+    <p>
+      I mainly work at the intersection of ML & Data Infrastructure — building pipelines, distributed systems,
+      and the plumbing that makes large-scale products reliable. Currently at
+      <strong>AWS</strong>, previously at Algonomy.
+    </p>
+    <p>
+      I care about scalability, correctness, observability, and systems that are boring in
+      the best possible way.
+    </p>
+    <div class="home-links">
+      <a href="https://github.com/jai7" target="_blank" rel="noopener">github</a>
+      <a href="https://twitter.com/CodePhoenix19" target="_blank" rel="noopener">twitter</a>
+      <a href="https://www.linkedin.com/in/jayakrishna-parameswaramangalam-870732ba/" target="_blank" rel="noopener">linkedin</a>
+      <a href="mailto:pjayakrishna19@gmail.com">email</a>
+    </div>
+  </div>
+
+  <p class="carousel-label">Explore</p>
+  <div class="carousel">
+    {sections.map(s => (
+      <a href={`/${s.slug}`} class="carousel-card">
+        <div class="cc-title">{s.title}</div>
+        <div class="cc-desc">{s.desc}</div>
+        <span class="cc-arrow">→</span>
+      </a>
+    ))}
+  </div>
+</Base>
+
+<style>
+  .home-bio {
+    padding: 52px 0 40px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .home-bio h1 {
+    font-family: var(--serif);
+    font-size: clamp(32px, 6vw, 46px);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
+  }
+
+  .home-bio h1 em {
+    font-style: italic;
+    color: var(--mid);
+  }
+
+  .home-bio p {
+    font-size: 15.5px;
+    color: var(--mid);
+    line-height: 1.8;
+    max-width: 520px;
+    margin-bottom: 10px;
+  }
+
+  .home-links {
+    margin-top: 24px;
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  .home-links a {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--link);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+  }
+  .home-links a:hover { text-decoration: underline; }
+
+  .carousel-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 40px 0 16px;
+  }
+
+  .carousel {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding-bottom: 24px;
+  }
+
+  .carousel-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    padding: 20px 18px 18px;
+    cursor: pointer;
+    transition: background 0.18s, border-color 0.18s, transform 0.15s;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .carousel-card:hover {
+    background: var(--ink);
+    border-color: var(--ink);
+    transform: translateY(-2px);
+  }
+  .carousel-card:hover .cc-title,
+  .carousel-card:hover .cc-desc { color: #fff; }
+  .carousel-card:hover .cc-arrow { color: rgba(255,255,255,0.4); }
+
+  .cc-title {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+    transition: color 0.18s;
+  }
+
+  .cc-desc {
+    font-size: 12px;
+    color: var(--mid);
+    line-height: 1.5;
+    transition: color 0.18s;
+  }
+
+  .cc-arrow {
+    position: absolute;
+    bottom: 14px;
+    right: 16px;
+    font-size: 14px;
+    color: var(--rule);
+    transition: color 0.18s;
+  }
+
+  @media (max-width: 480px) {
+    .carousel { grid-template-columns: 1fr 1fr; }
+  }
+</style>

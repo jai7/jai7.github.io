@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+
+const photos = [
+  { label: 'Hawaii',      date: 'Dec 2025' },
+  { label: 'Tirupati',     date: 'Feb 2024' },
+  { label: 'Kyoto',      date: 'Mar 2024' },
+  { label: 'Berlin',     date: 'Jan 2024' },
+  { label: 'SF',        date: 'Sep 2023' },
+  { label: 'Bangalore',  date: 'Aug 2019' }
+];
+---
+
+<Base title="Gallery">
+  <div class="subpage">
+    <div class="subpage-header">
+      <div class="subpage-title">Gallery</div>
+      <div class="subpage-desc">Places, moments, things I noticed.</div>
+    </div>
+
+    <div class="gallery-grid">
+      {photos.map(p => (
+        <div class="gallery-cell">
+          <div class="gallery-cell-label">{p.label}<br />{p.date}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const items = (await getCollection('projects'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const byYear = items.reduce<Record<string, typeof items>>((acc, item) => {
+  const year = item.data.date.getFullYear().toString();
+  if (!acc[year]) acc[year] = [];
+  acc[year].push(item);
+  return acc;
+}, {});
+
+const years = Object.keys(byYear).sort((a, b) => Number(b) - Number(a));
+
+function fmtYear(d: Date) {
+  return d.getFullYear().toString();
+}
+---
+
+<Base title="Projects">
+  <div class="subpage">
+    <div class="subpage-header">
+      <div class="subpage-title">Projects</div>
+      <div class="subpage-desc">Production systems and open source work I'm proud of.</div>
+    </div>
+
+    <ul class="ts-list">
+      {years.map(year => (
+        <>
+          <li class="ts-year-divider">{year}</li>
+          {byYear[year].map(item => (
+            <li class="ts-item">
+              <div class="ts-date">{fmtYear(item.data.date)}</div>
+              <div class="ts-body">
+                <a class="ts-link" href={`/projects/${item.id}`}>{item.data.title}</a>
+                {item.data.tags.map(tag => <span class="ts-tag">{tag}</span>)}
+                {item.data.tech && <div class="ts-meta">{item.data.tech}</div>}
+              </div>
+            </li>
+          ))}
+        </>
+      ))}
+    </ul>
+  </div>
+</Base>

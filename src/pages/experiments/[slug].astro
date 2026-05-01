@@ -1,0 +1,91 @@
+---
+import { getCollection, type CollectionEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const items = await getCollection('experiments');
+  return items.map(item => ({
+    params: { slug: item.id },
+    props: { item },
+  }));
+}
+
+interface Props {
+  item: CollectionEntry<'experiments'>;
+}
+
+const { item } = Astro.props;
+const { Content } = await render(item);
+
+function fmtFull(d: Date) {
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+
+<Base title={item.data.title} description={item.data.description}>
+  <div class="subpage">
+    <div class="post-header">
+      <div class="post-meta-line">
+        <span class="post-date">{fmtFull(item.data.date)}</span>
+        {item.data.stack && <span class="ts-tag">{item.data.stack}</span>}
+      </div>
+      <h1 class="post-title">{item.data.title}</h1>
+      {item.data.repo && (
+        <div class="post-repo">
+          <a href={item.data.repo} target="_blank" rel="noopener">view repo →</a>
+          {item.data.stars && <span class="post-stars">★ {item.data.stars}</span>}
+        </div>
+      )}
+    </div>
+
+    <div class="article-body">
+      <Content />
+    </div>
+  </div>
+</Base>
+
+<style>
+  .post-header {
+    padding: 44px 0 28px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 32px;
+  }
+  .post-meta-line {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .post-date {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .post-title {
+    font-family: var(--serif);
+    font-size: clamp(24px, 5vw, 36px);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 14px;
+  }
+  .post-repo {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 8px;
+  }
+  .post-repo a {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--link);
+    text-decoration: none;
+  }
+  .post-repo a:hover { text-decoration: underline; }
+  .post-stars {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+</style>

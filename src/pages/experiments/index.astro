@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const items = (await getCollection('experiments'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const byYear = items.reduce<Record<string, typeof items>>((acc, item) => {
+  const year = item.data.date.getFullYear().toString();
+  if (!acc[year]) acc[year] = [];
+  acc[year].push(item);
+  return acc;
+}, {});
+
+const years = Object.keys(byYear).sort((a, b) => Number(b) - Number(a));
+
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('en-US', { month: 'short', day: '2-digit' });
+}
+---
+
+<Base title="Experiments">
+  <div class="subpage">
+    <div class="subpage-header">
+      <div class="subpage-title">Experiments</div>
+      <div class="subpage-desc">Side projects, designs and weekend tinkering. Some work, some don't.</div>
+    </div>
+
+    <ul class="ts-list">
+      {years.map(year => (
+        <>
+          <li class="ts-year-divider">{year}</li>
+          {byYear[year].map(item => (
+            <li class="ts-item">
+              <div class="ts-date">{fmtDate(item.data.date)}</div>
+              <div class="ts-body">
+                <a class="ts-link" href={`/experiments/${item.id}`}>{item.data.title}</a>
+                {item.data.stack && <span class="ts-tag">{item.data.stack}</span>}
+                {item.data.description && <div class="ts-meta">{item.data.description}</div>}
+              </div>
+            </li>
+          ))}
+        </>
+      ))}
+    </ul>
+  </div>
+</Base>
