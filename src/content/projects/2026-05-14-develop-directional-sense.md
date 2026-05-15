@@ -20,6 +20,11 @@ In this Digital world where we are truly reliant on Apps and Internet, imagine i
 - **Completely client side web application** — your data is safe and stored on your web browser
 - **User Profile & Streaks** — to show you stats on your achievements, keep track of journal notes to help you achieve your goal
 
+## Inspired from
+1. https://www.bbc.com/future/article/20240215-do-some-people-have-a-better-sense-of-direction
+2. https://zenhabits.net/direction/
+3. https://www.npr.org/transcripts/1199886119
+
 ## Results
 
 - Deployment: Used Vercel app to deploy within ~5 minutes
