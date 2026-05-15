@@ -9,7 +9,7 @@ tech: React · Vite · Dixie js · IndexedDB · Plain CSS
 
 This is a spatial skill-building app that helps you build directional sense, provide daily drills and challenges along with stats to keep you motivated
 
-To view the live application - click here https://wayfinder-c941yroun-jayakrishna-s-projects.vercel.app/
+To view the live application - click here https://wayfinder-rho.vercel.app/
 
 ## The problem
 
